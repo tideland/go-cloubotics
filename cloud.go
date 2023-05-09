@@ -16,17 +16,33 @@ import (
 )
 
 //--------------------
+// CLOUD PROVIDER
+//--------------------
+
+// CloudProvider is the interface for the individual cloud providers.
+type CloudProvider interface {
+	// ID returns the ID of the cloud provider implementation.
+	ID() string
+}
+
+//--------------------
 // CLOUD
 //--------------------
 
 // Cloud is the manager for cloud services.
 type Cloud struct {
+	provider CloudProvider
 }
 
-// NewCloud creates a new cloud manager.
-func NewCloud() (*Cloud, error) {
-	// TODO: Implement configuration handling
-	return &Cloud{}, nil
+// NewCloud creates a new cloud manager with the given options.
+func NewCloud(options ...Option) (*Cloud, error) {
+	cloud := &Cloud{}
+	for _, option := range options {
+		if err := option(cloud); err != nil {
+			return nil, err
+		}
+	}
+	return cloud, nil
 }
 
 // Machine returns the machine with the given ID.

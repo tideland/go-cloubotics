@@ -9,10 +9,7 @@
 
 ### Description
 
-Helpful Go package for the development of automatic tasks in clouds. It is a bit like the
-Kubernetes Operator SDK, but working direct on cloud ressources as well as much simpler and
-more lightweight. It does not cover all the power of a cloud provider API, but the most
-important parts for the development of handlers for many use cases.
+Reconciler for cloud provider ressources analogous to the Kubernetes Operator SDK.
 
 ### Contributors
 
