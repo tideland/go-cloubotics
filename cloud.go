@@ -12,7 +12,24 @@ package cloubotics // import "tideland.dev/go/cloubotics"
 //--------------------
 
 import (
+	"errors"
+
 	"tideland.dev/go/cloubotics/services/machine"
+)
+
+//--------------------
+// CONSTANTS
+//--------------------
+
+const (
+	// Version is the current version of the cloubotics package.
+	Version = "0.1.0"
+)
+
+var (
+	// ErrNoCloudProvider is returned if the fresh created Cloud has
+	// no CloudProvider set.
+	ErrNoCloudProvider = errors.New("no cloud provider set")
 )
 
 //--------------------
@@ -41,6 +58,9 @@ func NewCloud(options ...Option) (*Cloud, error) {
 		if err := option(cloud); err != nil {
 			return nil, err
 		}
+	}
+	if cloud.provider == nil {
+		return nil, ErrNoCloudProvider
 	}
 	return cloud, nil
 }
