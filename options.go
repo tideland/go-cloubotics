@@ -18,8 +18,8 @@ package cloubotics // import "tideland.dev/go/cloubotics"
 // Option defines a function setting an option.
 type Option func(*Cloud) error
 
-// WithCloudProvider sets the cloud provider.
-func WithCloudProvider(provider CloudProvider) Option {
+// WithProvider sets the cloud provider.
+func WithProvider(provider Provider) Option {
 	return func(c *Cloud) error {
 		c.provider = provider
 		return nil
