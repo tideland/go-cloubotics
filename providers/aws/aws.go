@@ -47,4 +47,9 @@ func (p *Provider) ID() types.ID {
 	return "aws"
 }
 
+// Machines returns the machines service.
+func (p *Provider) Machines(selector types.Selector) types.Machiner {
+	return nil
+}
+
 // EOF

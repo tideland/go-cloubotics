@@ -36,7 +36,7 @@ func Example() {
 	if err != nil {
 		panic(err)
 	}
-	svcs, err := cloud.Machines(types.Selector{
+	mnr, err := cloud.Machines(types.Selector{
 		IDs: []types.ID{},
 		Filters: []types.Filter{
 			{
@@ -45,7 +45,7 @@ func Example() {
 				Values: []string{"test"},
 			},
 		},
-	}).Reconcile(func(res cloubotics.Resource) error {
+	}).Reconcile(func(res types.Resource) error {
 		// Do something with the machine resource.
 		fmt.Printf("machine: %v\n", res.ID())
 		return nil
@@ -55,7 +55,7 @@ func Example() {
 
 	time.Sleep(30 * time.Second)
 
-	svcs.Stop()
+	mnr.Stop()
 }
 
 // EOF

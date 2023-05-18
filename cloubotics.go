@@ -27,16 +27,6 @@ const (
 )
 
 //--------------------
-// INTERFACES
-//--------------------
-
-// Provider is the interface for the individual cloud providers.
-type Provider interface {
-	// ID returns the ID of the cloud provider implementation.
-	ID() types.ID
-}
-
-//--------------------
 // CLOUD
 //--------------------
 
@@ -81,11 +71,9 @@ func (c *Cloud) Err() error {
 	return c.ctx.Err()
 }
 
-// Machines returns the selected machines of the cloud. A possible
-// selection error is passed to the returned machines instances and
-// can be retrieved with the Err() method.
-func (c *Cloud) Machines(selector types.Selector) Machines {
-	return nil
+// Machines returns the selected machines of the cloud.
+func (c *Cloud) Machines(selector types.Selector) types.Machiner {
+	return c.provider.Machines(selector)
 }
 
 // EOF
