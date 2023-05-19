@@ -32,28 +32,20 @@ const (
 
 // Cloud is the manager for cloud services.
 type Cloud struct {
-	ctx      context.Context
-	cancel   context.CancelFunc
-	provider Provider
+	ctx    context.Context
+	cancel context.CancelFunc
+	config *types.Config
 }
 
 // NewCloud creates a new cloud manager with the given options.
-func NewCloud(ctx context.Context, options ...Option) (*Cloud, error) {
+func NewCloud(ctx context.Context, config *types.Config) *Cloud {
 	ctx, cancel := context.WithCancel(ctx)
 	cloud := &Cloud{
 		ctx:    ctx,
 		cancel: cancel,
+		config: config,
 	}
-	for _, option := range options {
-		if err := option(cloud); err != nil {
-			return nil, err
-		}
-	}
-	// Check the configured fields.
-	if cloud.provider == nil {
-		return nil, types.NewCloudError(nil, "no cloud provider defined")
-	}
-	return cloud, nil
+	return cloud
 }
 
 // Stop stops the cloud manager.
@@ -73,7 +65,7 @@ func (c *Cloud) Err() error {
 
 // Machines returns the selected machines of the cloud.
 func (c *Cloud) Machines(selector types.Selector) types.Machiner {
-	return c.provider.Machines(selector)
+	return c.config.Provider().Machines(selector)
 }
 
 // EOF

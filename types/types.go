@@ -16,7 +16,7 @@ import (
 )
 
 //--------------------
-// ERROR TYPES
+// ERROR AND LOGGER TYPES
 //--------------------
 
 // CloudError is the error type for the cloud package.
@@ -39,6 +39,18 @@ func (e *CloudError) Error() string {
 		return e.Msg
 	}
 	return fmt.Sprintf("%s: %v", e.Msg, e.Err)
+}
+
+// Logger is the interface for logging.
+type Logger interface {
+	// Printf logs a message.
+	Printf(format string, args ...interface{})
+
+	// Fatalf logs a message and exits the application.
+	Fatalf(format string, args ...interface{})
+
+	// Panicf logs a message and panics.
+	Panicf(format string, args ...interface{})
 }
 
 //--------------------
@@ -67,31 +79,6 @@ type Selector struct {
 
 	// Filter for the resources. An empty filter means all.
 	Filters []Filter
-}
-
-// Resource is common interface for all resources.
-type Resource interface {
-	// ID returns the ID of the resource.
-	ID() ID
-}
-
-// Reconclier is the type for functions that reconcile something.
-type Reconciler func(res Resource) error
-
-// Machiner is the interface for the management of a set of machines.
-type Machiner interface {
-	// ID returns the ID of the machiner.
-	ID() ID
-
-	// Reconcile starts a reconciliation loop in the background.
-	Reconcile(rec Reconciler) (Machiner, error)
-
-	// Stop stops the reconciliation loop.
-	Stop()
-
-	// Err returns the error of a selection or inside the reconciliation
-	// loop.
-	Err() error
 }
 
 // EOF

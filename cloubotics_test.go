@@ -32,10 +32,11 @@ func Example() {
 	if err != nil {
 		panic(err)
 	}
-	cloud, err := cloubotics.NewCloud(ctx, cloubotics.WithProvider(provider))
+	config, err := types.NewConfig(types.WithProvider(provider))
 	if err != nil {
 		panic(err)
 	}
+	cloud := cloubotics.NewCloud(ctx, config)
 	mnr, err := cloud.Machines(types.Selector{
 		IDs: []types.ID{},
 		Filters: []types.Filter{

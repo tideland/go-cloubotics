@@ -17,6 +17,7 @@ import (
 
 	"tideland.dev/go/cloubotics/types"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 )
 
@@ -26,8 +27,9 @@ import (
 
 // Provider implements the Provider interface for AWS.
 type Provider struct {
-	ctx context.Context
-	cfg config.Config
+	ctx       context.Context
+	config    *types.Config
+	awsConfig aws.Config
 }
 
 // NewProvider creates a new AWS cloud provider.
@@ -37,8 +39,8 @@ func NewProvider(ctx context.Context) (*Provider, error) {
 		return nil, fmt.Errorf("unable to load AWS SDK config, %v", err)
 	}
 	return &Provider{
-		ctx: ctx,
-		cfg: cfg,
+		ctx:       ctx,
+		awsConfig: cfg,
 	}, nil
 }
 
@@ -47,9 +49,19 @@ func (p *Provider) ID() types.ID {
 	return "aws"
 }
 
+// SetConfig sets the configuration of the provider.
+func (p *Provider) SetConfig(config *types.Config) {
+	p.config = config
+}
+
+// Config returns the configuration of the provider.
+func (p *Provider) Config() *types.Config {
+	return p.config
+}
+
 // Machines returns the machines service.
 func (p *Provider) Machines(selector types.Selector) types.Machiner {
-	return nil
+	return newMachiner(p, selector)
 }
 
 // EOF
