@@ -32,6 +32,16 @@ const (
 	machinerInterval = 30 * time.Second
 )
 
+// machineStates maps the AWS instance states to the resource states.
+var machineStates = map[ec2types.InstanceStateName]types.ResourceState{
+	ec2types.InstanceStateNamePending:      types.ResourcePending,
+	ec2types.InstanceStateNameRunning:      types.ResourceRunning,
+	ec2types.InstanceStateNameStopping:     types.ResourceStopping,
+	ec2types.InstanceStateNameStopped:      types.ResourceStopped,
+	ec2types.InstanceStateNameShuttingDown: types.ResourceShuttingDown,
+	ec2types.InstanceStateNameTerminated:   types.ResourceTerminated,
+}
+
 //--------------------
 // MACHINE
 //--------------------
@@ -50,21 +60,55 @@ func (m *machine) ID() types.ID {
 
 // State implements the Resource interface.
 func (m *machine) State() types.ResourceState {
-	switch m.instance.State.Name {
-	case ec2types.InstanceStateNamePending:
-		return types.ResourcePending
-	case ec2types.InstanceStateNameRunning:
-		return types.ResourceRunning
-	case ec2types.InstanceStateNameStopping:
-		return types.ResourceStopping
-	case ec2types.InstanceStateNameStopped:
-		return types.ResourceStopped
-	case ec2types.InstanceStateNameShuttingDown:
-		return types.ResourceShuttingDown
-	case ec2types.InstanceStateNameTerminated:
-		return types.ResourceTerminated
+	state, ok := machineStates[m.instance.State.Name]
+	if !ok {
+		return types.ResourceUnknown
 	}
-	return types.ResourceUnknown
+	return state
+}
+
+// Internal implements the Resource interface.
+func (m *machine) Internal(kind, name string) (any, error) {
+	switch kind {
+	case "tags":
+		for _, tag := range m.instance.Tags {
+			if *tag.Key == name {
+				return *tag.Value, nil
+			}
+		}
+	case "instance":
+		switch name {
+		case "id":
+			return *m.instance.InstanceId, nil
+		case "type":
+			return m.instance.InstanceType, nil
+		case "image":
+			return *m.instance.ImageId, nil
+		case "key":
+			return *m.instance.KeyName, nil
+		case "public-ip":
+			return *m.instance.PublicIpAddress, nil
+		case "private-ip":
+			return *m.instance.PrivateIpAddress, nil
+		case "public-dns":
+			return *m.instance.PublicDnsName, nil
+		case "private-dns":
+			return *m.instance.PrivateDnsName, nil
+		case "launch-time":
+			return *m.instance.LaunchTime, nil
+		case "vpc-id":
+			return *m.instance.VpcId, nil
+		case "subnet-id":
+			return *m.instance.SubnetId, nil
+		case "security-groups":
+			groups := make([]string, len(m.instance.SecurityGroups))
+			for i, group := range m.instance.SecurityGroups {
+				groups[i] = *group.GroupId
+			}
+			return groups, nil
+		}
+	}
+	return nil, types.NewCloudError(nil, "unknown internal for %s:%s", kind, name)
 }
 
 //--------------------

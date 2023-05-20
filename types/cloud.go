@@ -16,13 +16,13 @@ type ResourceState string
 
 const (
 	// The different states of a resource.
-	ResourceUnknown      = "unknown"
-	ResourcePending      = "pending"
-	ResourceRunning      = "running"
-	ResourceStopping     = "stopping"
-	ResourceStopped      = "stopped"
-	ResourceShuttingDown = "shutting-down"
-	ResourceTerminated   = "terminated"
+	ResourceUnknown      ResourceState = "unknown"
+	ResourcePending      ResourceState = "pending"
+	ResourceRunning      ResourceState = "running"
+	ResourceStopping     ResourceState = "stopping"
+	ResourceStopped      ResourceState = "stopped"
+	ResourceShuttingDown ResourceState = "shutting-down"
+	ResourceTerminated   ResourceState = "terminated"
 )
 
 // Resource is common interface for all resources.
@@ -32,6 +32,10 @@ type Resource interface {
 
 	// State returns the state of the resource.
 	State() ResourceState
+
+	// Internal returns an internal value defined by kind and name.
+	// The caller must know the type of the value to assert it.
+	Internal(kind, name string) (any, error)
 }
 
 // Reconclier is the type for functions that reconcile something.
