@@ -1,4 +1,4 @@
-module tideland/go-cloubotics
+module tideland.dev/go/cloubotics
 
 go 1.20
 

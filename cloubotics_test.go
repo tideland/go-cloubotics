@@ -14,9 +14,9 @@ package cloubotics_test
 import (
 	"context"
 	"fmt"
-	"tideland/go-cloubotics"
 	"time"
 
+	"tideland.dev/go/cloubotics"
 	"tideland.dev/go/cloubotics/providers/aws"
 	"tideland.dev/go/cloubotics/types"
 )
