@@ -39,9 +39,5 @@ gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8
 gopkg.in/yaml.v2 v2.2.8 h1:obN1ZagJSUGI0Ek/LBmuj4SNLPfIny3KsKFopxRdj10=
 gopkg.in/yaml.v2 v2.2.8/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
 tideland.dev/go/audit v0.4.0 h1:OsgeFvmcx9a+GrwjJawRYbQ+qiLcxSkHJ3j9zDzhOMY=
-tideland.dev/go/cloubotics/providers/aws v0.0.0-20230520211135-d5c0e37c3e96 h1:kQZLFcogW3vp13Psx+3QjOSBqpn/EDid9PKMTGoceyQ=
-tideland.dev/go/cloubotics/providers/aws v0.0.0-20230520211135-d5c0e37c3e96/go.mod h1:1wC9ngNvTsP3F2wY1cXDYgJ0vH/g3ShulGzVccmCS5o=
-tideland.dev/go/cloubotics/types v0.0.0-20230519210940-9f646f1bf66a h1:KAVhgwEdc9OnGjB5f5M95zyVw2a4fW4fwfyUmm5wiP4=
-tideland.dev/go/cloubotics/types v0.0.0-20230519210940-9f646f1bf66a/go.mod h1:9Gg2zzf/XYSO7m99y8ESSpu31YsxsoVntwu/Tl12KBY=
 tideland.dev/go/uuid v0.1.1 h1:wicF+cdgynCr8xaV9nvq/kUQX0zAWZCklQ1kl7ylpN4=
 tideland.dev/go/uuid v0.1.1/go.mod h1:wZTkUgslA4SwVVHGa+4X3tf3+7gGUbWzrtZhPJysJxw=

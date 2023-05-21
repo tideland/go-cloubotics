@@ -5,7 +5,7 @@
 // All rights reserved. Use of this source code is governed
 // by the new BSD license.
 
-package cloubotics_test
+package cloubotics_test // import "tideland.dev/go/cloubotics"
 
 //--------------------
 // IMPORTS
